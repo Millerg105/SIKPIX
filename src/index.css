@@ -1,0 +1,376 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 95%;
+
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 120 100% 56%;
+    --primary-foreground: 0 0% 4%;
+
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 120 100% 56%;
+    --accent-foreground: 0 0% 4%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 120 100% 56%;
+
+    --radius: 0.5rem;
+
+    /* Custom SikPix tokens */
+    --neon: 120 100% 56%;
+    --neon-light: 120 100% 70%;
+    --neon-dark: 120 80% 40%;
+    --white: 0 0% 95%;
+    --obsidian: 0 0% 4%;
+    --charcoal: 0 0% 7%;
+    --smoke: 0 0% 15%;
+
+    /* Gradients */
+    --gradient-neon: linear-gradient(135deg, hsl(120, 100%, 56%) 0%, hsl(140, 100%, 45%) 50%, hsl(120, 100%, 56%) 100%);
+    --gradient-dark: linear-gradient(180deg, hsl(0, 0%, 4%) 0%, hsl(0, 0%, 7%) 100%);
+    --gradient-radial: radial-gradient(ellipse at center, hsl(0, 0%, 10%) 0%, hsl(0, 0%, 4%) 70%);
+    --gradient-hero: linear-gradient(135deg, hsl(0, 0%, 0%) 0%, hsl(0, 0%, 6%) 50%, hsl(0, 0%, 0%) 100%);
+
+    /* Shadows */
+    --shadow-neon: 0 0 60px hsl(120, 100%, 56%, 0.2);
+    --shadow-elevated: 0 25px 50px -12px hsl(0, 0%, 0%, 0.8);
+    --shadow-card: 0 4px 30px hsl(0, 0%, 0%, 0.4);
+
+    /* Typography */
+    --font-display: 'Bebas Neue', 'Impact', sans-serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+    --font-cta: 'Montserrat', 'Inter', sans-serif;
+    --font-price: 'Space Grotesk', 'Inter', sans-serif;
+
+    /* Animations */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 95%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-body);
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+
+  button {
+    font-family: var(--font-cta);
+  }
+}
+
+@layer components {
+  .text-gradient-neon {
+    background: var(--gradient-neon);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Keep old class name as alias for compatibility */
+  .text-gradient-gold {
+    background: var(--gradient-neon);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .border-gradient-neon {
+    border-image: var(--gradient-neon) 1;
+  }
+
+  .glow-neon {
+    box-shadow: var(--shadow-neon);
+  }
+
+  /* Keep old class name as alias */
+  .glow-gold {
+    box-shadow: var(--shadow-neon);
+  }
+
+  .card-luxury {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-card);
+    transition: var(--transition-smooth);
+  }
+
+  .card-luxury:hover {
+    border-color: hsl(var(--primary) / 0.5);
+    box-shadow: var(--shadow-neon);
+    transform: translateY(-4px);
+  }
+
+  .btn-luxury {
+    background: var(--gradient-neon);
+    color: hsl(var(--obsidian));
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: var(--transition-smooth);
+  }
+
+  .btn-luxury:hover {
+    box-shadow: var(--shadow-neon);
+    transform: translateY(-2px);
+  }
+
+  .btn-outline-luxury {
+    background: transparent;
+    border: 1px solid hsl(var(--primary));
+    color: hsl(var(--primary));
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: var(--transition-smooth);
+  }
+
+  .btn-outline-luxury:hover {
+    background: hsl(var(--primary) / 0.1);
+    box-shadow: var(--shadow-neon);
+  }
+
+  .price-display {
+    font-family: var(--font-price);
+    letter-spacing: -0.02em;
+  }
+
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, hsl(var(--primary) / 0.5) 50%, transparent 100%);
+  }
+}
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fadeUp 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 1s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.6s ease-out forwards;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  .animate-scroll-line {
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulseSlow 4s ease-in-out infinite;
+  }
+
+  .animate-hero-shimmer {
+    animation: heroShimmer 2s ease-out forwards;
+  }
+
+  .animate-hero-logo-drift {
+    animation: heroLogoDrift 20s ease-in-out infinite;
+  }
+
+  .animate-splash-shimmer {
+    animation: splashShimmer 1.8s ease-in-out forwards;
+  }
+
+  .animate-splash-drift {
+    animation: splashDrift 3s ease-in-out infinite;
+  }
+
+  .animate-splash-glow {
+    animation: splashGlow 1.8s ease-out forwards;
+  }
+
+  .duration-350 {
+    transition-duration: 350ms;
+  }
+
+  .duration-600 {
+    transition-duration: 600ms;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes shimmer {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  @keyframes scrollLine {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    30% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes pulseSlow {
+    0%, 100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.5;
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes heroShimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes heroLogoDrift {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+      transform: translate(2%, 1%) rotate(0.5deg);
+    }
+    50% {
+      transform: translate(0, 2%) rotate(0deg);
+    }
+    75% {
+      transform: translate(-2%, 1%) rotate(-0.5deg);
+    }
+  }
+
+  @keyframes splashShimmer {
+    0% {
+      transform: translateX(-100%) skewX(-15deg);
+    }
+    60% {
+      transform: translateX(100%) skewX(-15deg);
+    }
+    100% {
+      transform: translateX(100%) skewX(-15deg);
+    }
+  }
+
+  @keyframes splashDrift {
+    0%, 100% {
+      transform: translate(0, 0);
+    }
+    50% {
+      transform: translate(1%, 1%);
+    }
+  }
+
+  @keyframes splashGlow {
+    0% {
+      filter: brightness(0.5);
+    }
+    50% {
+      filter: brightness(1.2);
+    }
+    100% {
+      filter: brightness(1);
+    }
+  }
+
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+  .delay-600 { animation-delay: 600ms; }
+  .delay-700 { animation-delay: 700ms; }
+}

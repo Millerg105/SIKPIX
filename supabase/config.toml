@@ -1,0 +1,13 @@
+project_id = "akrntpszsujtsrhkxxxh"
+
+[functions.create-draft-order]
+verify_jwt = false
+
+[functions.shopify-order-webhook]
+verify_jwt = false
+
+[functions.admin-orders]
+verify_jwt = false
+
+[functions.upload-customer-photo]
+verify_jwt = false
