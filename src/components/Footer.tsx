@@ -127,18 +127,18 @@ const Footer = () => {
             </h4>
             <ul className="space-y-3">
               <li>
-                <a href="#" className="font-body text-sm text-muted-foreground transition-colors hover:text-primary">
+                <a href="https://btvp1i-mb.myshopify.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-muted-foreground transition-colors hover:text-primary">
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="font-body text-sm text-muted-foreground transition-colors hover:text-primary">
+                <a href="https://btvp1i-mb.myshopify.com/policies/terms-of-service" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-muted-foreground transition-colors hover:text-primary">
                   Terms of Service
                 </a>
               </li>
               <li>
-                <a href="#" className="font-body text-sm text-muted-foreground transition-colors hover:text-primary">
-                  Cookie Policy
+                <a href="https://btvp1i-mb.myshopify.com/policies/shipping-policy" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-muted-foreground transition-colors hover:text-primary">
+                  Shipping & Returns
                 </a>
               </li>
             </ul>
@@ -147,7 +147,7 @@ const Footer = () => {
 
         <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-border/50 pt-8 md:flex-row">
           <p className="font-body text-xs text-muted-foreground">
-            © 2025 SikPix · Powered by Big Mon @BIGMON270
+            © 2026 SikPix · Powered by Big Mon @BIGMON270
           </p>
           <p className="font-body text-xs text-muted-foreground">
             24-48 hour delivery · Secure checkout · Money-back guarantee

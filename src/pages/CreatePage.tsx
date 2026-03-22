@@ -203,10 +203,6 @@ const CreatePage = () => {
         referencePhotos,
       };
 
-      console.log("=== SHOPIFY ORDER EXPORT ===");
-      console.log("Full Order Export:", JSON.stringify(orderExport, null, 2));
-      console.log("============================");
-
       const checkoutUrl = await createPortraitCheckout(orderExport);
       window.location.href = checkoutUrl;
       toast.success("Redirecting to checkout...");

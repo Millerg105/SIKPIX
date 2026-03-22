@@ -101,8 +101,6 @@ export async function createPortraitCheckout(
     referencePhotos: orderExport.referencePhotos,
   };
 
-  console.log('Creating draft order...');
-
   // Call the edge function to create a Draft Order with custom pricing
   const response = await fetch(`${SUPABASE_URL}/functions/v1/create-draft-order`, {
     method: 'POST',
@@ -132,7 +130,6 @@ export async function createPortraitCheckout(
     throw new Error(data.error || 'No checkout URL returned');
   }
 
-  console.log('Secure checkout created successfully');
   return data.checkoutUrl;
 }
 

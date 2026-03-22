@@ -105,18 +105,6 @@ export const calculateOrderTotals = (orderState: OrderState): OrderTotals => {
     bundleLabel = bundle ? `${bundle.name} (${bundle.discountLabel})` : null;
   }
   
-  // Debug logging - remove after verification
-  console.log('CLIENT TOTAL', totalAfterDiscount, {
-    basePrice,
-    quantity,
-    baseTotal,
-    addOnsTotal,
-    podPrice,
-    subtotalBeforeDiscount,
-    discountPercent,
-    discountAmount,
-  });
-  
   return {
     basePrice,
     addOnsTotal,
