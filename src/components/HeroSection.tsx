@@ -157,6 +157,14 @@ const HeroSection = () => {
             <p className={`font-body text-[10px] sm:text-xs tracking-widest uppercase text-muted-foreground transition-all duration-1000 ease-out delay-700 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
               <span className="text-primary font-semibold">{recentPurchases}</span> cars transformed in the last 24h 🔥
             </p>
+            <div className={`flex items-center gap-2 transition-all duration-1000 ease-out delay-[800ms] ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary flex-shrink-0">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              <span className="font-body text-[10px] sm:text-xs tracking-widest uppercase text-muted-foreground">
+                Preview every piece before final delivery
+              </span>
+            </div>
           </div>
         </div>
       </div>

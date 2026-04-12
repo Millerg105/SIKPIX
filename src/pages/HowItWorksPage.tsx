@@ -46,6 +46,18 @@ const steps = [
   },
   {
     number: "04",
+    title: "Preview Your Artwork",
+    description: "We send you a watermarked preview of your custom piece. Check every detail. Happy? We release the full resolution file. Want changes? One free re-edit included.",
+    details: [
+      "Watermarked preview sent before final delivery",
+      "Approve it or request a free re-edit",
+      "No surprises, you see exactly what you get",
+      "Full resolution released only after your approval",
+    ],
+    image: step3Image,
+  },
+  {
+    number: "05",
     title: "Receive Your Art",
     description: "Download your high-resolution artwork within 24-48 hours. Digital poster or printed canvas, your choice.",
     details: [
@@ -77,7 +89,7 @@ const faqs = [
   },
   {
     question: "What if I'm not satisfied?",
-    answer: "We offer one free revision within 7 days of delivery. If you're still not happy, we'll discuss a full refund.",
+    answer: "Every order includes a watermarked preview before final delivery. If something is not right, we include one free re-edit. If you are still not happy after that, we will discuss a full refund.",
   },
   {
     question: "Can I get it printed?",
@@ -104,7 +116,7 @@ const HowItWorksPage = () => {
               How It Works
             </h1>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg text-muted-foreground">
-              From photo to custom car art in four simple steps. Upload your car, pick a style, and let Big Mon do the rest.
+              From photo to custom car art in five simple steps. Upload your car, pick a style, preview your artwork, and approve before we send the final.
             </p>
           </div>
         </section>

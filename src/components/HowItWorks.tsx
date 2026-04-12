@@ -17,6 +17,11 @@ const HowItWorks = () => {
     },
     {
       number: "04",
+      title: "Preview Your Artwork",
+      description: "We send you a watermarked preview so you can check every detail before we release the final file. Happy? We send the full resolution. Want changes? One free re-edit included.",
+    },
+    {
+      number: "05",
       title: "Receive Your Art",
       description: "Download your high-resolution artwork within 24-48 hours. Digital poster or printed canvas, your choice.",
     },
@@ -39,7 +44,7 @@ const HowItWorks = () => {
           </h2>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
           {steps.map((step, index) => (
             <div
               key={step.number}

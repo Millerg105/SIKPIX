@@ -83,6 +83,14 @@ const PricingPage = () => {
                 <Button variant="luxury" className="w-full" asChild>
                   <Link to="/create">Get Your SikPix</Link>
                 </Button>
+                <div className="mt-6 flex items-center justify-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary flex-shrink-0">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  </svg>
+                  <span className="font-body text-xs text-muted-foreground">
+                    Watermarked preview included. You approve before final delivery.
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -192,6 +200,21 @@ const PricingPage = () => {
             <p className="mx-auto mt-8 max-w-xl text-center font-body text-xs text-muted-foreground">
               Print prices are in addition to the £{BASE_PRICE.toFixed(2)} base digital artwork. Orders delivered worldwide.
             </p>
+          </div>
+        </section>
+
+        {/* Preview Guarantee */}
+        <section className="pb-6 sm:pb-8">
+          <div className="container mx-auto px-6">
+            <div className="mx-auto flex max-w-2xl items-center justify-center gap-3 rounded border border-primary/20 bg-primary/5 px-6 py-4 text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary flex-shrink-0">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <span className="font-body text-sm text-muted-foreground">
+                All orders include a watermarked preview for your approval before final delivery.
+              </span>
+            </div>
           </div>
         </section>
 

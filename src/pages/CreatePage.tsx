@@ -232,6 +232,15 @@ const CreatePage = () => {
               Follow the steps below to create your masterpiece. Final payment and add-ons will be handled via secure
               Shopify checkout.
             </p>
+            <div className="mx-auto mt-6 flex max-w-md items-center justify-center gap-3 rounded border border-primary/30 bg-primary/5 px-5 py-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary flex-shrink-0">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <span className="font-body text-sm text-foreground">
+                Every order includes a watermarked preview. You approve it before we release the final artwork.
+              </span>
+            </div>
           </div>
         </section>
 
