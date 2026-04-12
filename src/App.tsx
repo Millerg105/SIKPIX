@@ -15,6 +15,7 @@ import NotFound from "./pages/NotFound";
 import SickThreadsPage from "./pages/SickThreadsPage";
 import ThreadsProductPage from "./pages/ThreadsProductPage";
 import SickRidesPage from "./pages/SickRidesPage";
+import RidesProductPage from "./pages/RidesProductPage";
 import SplashScreen from "./components/SplashScreen";
 import ShutterTransition from "./components/ShutterTransition";
 
@@ -40,6 +41,7 @@ const App = () => (
           <Route path="/sick-threads" element={<SickThreadsPage />} />
           <Route path="/sick-threads/:slug" element={<ThreadsProductPage />} />
           <Route path="/sick-rides" element={<SickRidesPage />} />
+          <Route path="/sick-rides/:slug" element={<RidesProductPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
