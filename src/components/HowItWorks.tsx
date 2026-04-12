@@ -3,22 +3,22 @@ const HowItWorks = () => {
     {
       number: "01",
       title: "Upload Your Car",
-      description: "Share a photo of your car — side profile or 3/4 angle works best. Any car, any condition, any platform.",
+      description: "Share a photo of your car. Side profile or 3/4 angle works best. Any car, any condition, any platform.",
     },
     {
       number: "02",
       title: "Choose Your Style",
-      description: "Select from 8 custom art styles — GTA Street, Neon Night, Drift, Cartoon and more. Pick a substyle to make it yours.",
+      description: "Select from 8 custom art styles including GTA Street, Neon Night, Drift, Cartoon and more. Pick a substyle to make it yours.",
     },
     {
       number: "03",
       title: "Big Mon Creates",
-      description: "Your car gets transformed into a custom one-of-one artwork by Big Mon. Every detail, every mod, every angle — captured.",
+      description: "Your car gets transformed into a custom one-of-one artwork by Big Mon. Every detail, every mod, every angle captured.",
     },
     {
       number: "04",
       title: "Receive Your Art",
-      description: "Download your high-resolution artwork within 24-48 hours. Digital poster or printed canvas — your choice.",
+      description: "Download your high-resolution artwork within 24-48 hours. Digital poster or printed canvas, your choice.",
     },
   ];
 

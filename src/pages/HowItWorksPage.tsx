@@ -11,11 +11,11 @@ const steps = [
   {
     number: "01",
     title: "Upload Your Car",
-    description: "Send us a photo of your car — side profile or 3/4 angle works best. Any make, any model, any condition.",
+    description: "Send us a photo of your car. Side profile or 3/4 angle works best. Any make, any model, any condition.",
     details: [
       "Any photo format accepted (JPG, PNG, HEIC)",
       "Good daylight and clean background recommended",
-      "Show the full car — no cropped bumpers",
+      "Show the full car, no cropped bumpers",
       "Can include extra vehicles (add-on available)",
     ],
     image: step1Image,
@@ -23,7 +23,7 @@ const steps = [
   {
     number: "02",
     title: "Choose Your Style",
-    description: "Select from 8 custom art styles — GTA Street, Neon Night, Drift, Cartoon and more. Pick a substyle to make it yours.",
+    description: "Select from 8 custom art styles including GTA Street, Neon Night, Drift, Cartoon and more. Pick a substyle to make it yours.",
     details: [
       "8 unique car art styles",
       "Multiple substyles per category",
@@ -35,7 +35,7 @@ const steps = [
   {
     number: "03",
     title: "Big Mon Creates",
-    description: "Your car gets transformed into a one-of-one custom artwork by Big Mon. Every detail, every mod — captured.",
+    description: "Your car gets transformed into a one-of-one custom artwork by Big Mon. Every detail, every mod captured.",
     details: [
       "Custom AI-assisted creation",
       "Human quality review by Big Mon",
@@ -47,7 +47,7 @@ const steps = [
   {
     number: "04",
     title: "Receive Your Art",
-    description: "Download your high-resolution artwork within 24-48 hours. Digital poster or printed canvas — your choice.",
+    description: "Download your high-resolution artwork within 24-48 hours. Digital poster or printed canvas, your choice.",
     details: [
       "Secure digital delivery",
       "High-resolution PNG & JPG",
@@ -81,7 +81,7 @@ const faqs = [
   },
   {
     question: "Can I get it printed?",
-    answer: "Yes! We offer print-on-demand options including poster prints, framed prints, and premium canvas — delivered to your door.",
+    answer: "Yes! We offer print-on-demand options including poster prints, framed prints, and premium canvas, delivered to your door.",
   },
 ];
 

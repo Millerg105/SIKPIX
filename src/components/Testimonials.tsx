@@ -1,6 +1,6 @@
 const testimonials = [
   {
-    quote: "Got my Fiesta ST done in the Cartoon style — it's now framed in the garage. Absolutely buzzing with how it turned out.",
+    quote: "Got my Fiesta ST done in the Cartoon style and it's now framed in the garage. Absolutely buzzing with how it turned out.",
     author: "Liam K.",
     location: "Manchester, UK",
     rating: 5,
@@ -18,7 +18,7 @@ const testimonials = [
     rating: 5,
   },
   {
-    quote: "Got 3 done as a bundle — my GTI, the missus' Polo, and my dad's classic Capri. Whole family loves them. Proper quality.",
+    quote: "Got 3 done as a bundle: my GTI, the missus' Polo, and my dad's classic Capri. Whole family loves them. Proper quality.",
     author: "Jake S.",
     location: "Liverpool, UK",
     rating: 5,

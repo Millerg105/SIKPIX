@@ -14,7 +14,7 @@ const BundlesSection = () => {
             Multi-Car Discounts
           </h2>
           <p className="mt-4 mx-auto max-w-xl font-body text-muted-foreground">
-            Order multiple car artworks and save — discounts applied automatically at checkout.
+            Order multiple car artworks and save. Discounts applied automatically at checkout.
           </p>
         </div>
 

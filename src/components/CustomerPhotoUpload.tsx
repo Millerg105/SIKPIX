@@ -195,8 +195,8 @@ export function CustomerPhotoUpload({
         <ul className="space-y-1">
           <li className="font-body text-xs text-muted-foreground">• Side profile or 3/4 angle works best</li>
           <li className="font-body text-xs text-muted-foreground">• Shoot in good daylight if possible</li>
-          <li className="font-body text-xs text-muted-foreground">• Clean background helps — car park or open road</li>
-          <li className="font-body text-xs text-muted-foreground">• Show the full car — no cropped bumpers</li>
+          <li className="font-body text-xs text-muted-foreground">• Clean background helps, like a car park or open road</li>
+          <li className="font-body text-xs text-muted-foreground">• Show the full car, no cropped bumpers</li>
         </ul>
       </div>
     </div>

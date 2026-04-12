@@ -3,14 +3,14 @@ import { imageMap } from "@/hooks/useImageMap";
 import ProtectedImage from "@/components/ProtectedImage";
 
 const previewItems = [
-  { id: "gta-street",      alt: "GTA Street — Audi RS3 in Rockstar Games art style" },
-  { id: "neon-night",      alt: "Neon Night — Civic Type R in neon rain" },
-  { id: "street-racer-v1", alt: "Street Racer — BMW M4 on dark highway" },
-  { id: "street-racer-v2", alt: "Street Racer Dark — Nissan GTR in an underground meet" },
-  { id: "cartoon",         alt: "Cartoon — Ford Fiesta ST illustrated" },
-  { id: "lowrider-v1",     alt: "Lowrider — Golf Mk2 at golden sunset" },
-  { id: "lowrider-v2",     alt: "Lowrider Night — Impala under neon streetlights" },
-  { id: "drift-style",     alt: "Drift Style — BMW M3 mid-drift with tyre smoke" },
+  { id: "gta-street",      alt: "GTA Street: Audi RS3 in Rockstar Games art style" },
+  { id: "neon-night",      alt: "Neon Night: Civic Type R in neon rain" },
+  { id: "street-racer-v1", alt: "Street Racer: BMW M4 on dark highway" },
+  { id: "street-racer-v2", alt: "Street Racer Dark: Nissan GTR in an underground meet" },
+  { id: "cartoon",         alt: "Cartoon: Ford Fiesta ST illustrated" },
+  { id: "lowrider-v1",     alt: "Lowrider: Golf Mk2 at golden sunset" },
+  { id: "lowrider-v2",     alt: "Lowrider Night: Impala under neon streetlights" },
+  { id: "drift-style",     alt: "Drift Style: BMW M3 mid-drift with tyre smoke" },
 ];
 
 const GalleryPreview = () => {
@@ -26,7 +26,7 @@ const GalleryPreview = () => {
               Gallery
             </h2>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg text-muted-foreground md:mx-0">
-              Custom car art by Big Mon — every piece a one-of-one.
+              Custom car art by Big Mon. Every piece a one-of-one.
             </p>
           </div>
           <Link
@@ -57,7 +57,7 @@ const GalleryPreview = () => {
                 <div className="absolute inset-0 bg-background/0 transition-colors group-hover:bg-background/20" />
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
                   <span className="font-body text-sm tracking-widest uppercase text-foreground text-center px-4">
-                    {item.alt.split(" — ")[0]}
+                    {item.alt.split(":")[0]}
                   </span>
                 </div>
               </div>

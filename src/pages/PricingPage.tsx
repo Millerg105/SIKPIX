@@ -98,7 +98,7 @@ const PricingPage = () => {
               Multi-Car Discounts
             </h2>
             <p className="mx-auto mb-12 max-w-xl text-center font-body text-muted-foreground">
-              Order multiple car artworks and save — discounts applied automatically at checkout.
+              Order multiple car artworks and save. Discounts applied automatically at checkout.
             </p>
             
             <div className="mx-auto grid max-w-3xl gap-6 md:grid-cols-2">

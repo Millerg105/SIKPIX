@@ -115,7 +115,7 @@ const GalleryPage = () => {
               Gallery
             </h1>
             <p className="mx-auto mt-6 max-w-2xl font-body text-lg text-muted-foreground">
-              Explore our collection of custom car artworks — each one a unique one-of-one by Big Mon.
+              Explore our collection of custom car artworks, each one a unique one-of-one by Big Mon.
             </p>
           </div>
         </section>

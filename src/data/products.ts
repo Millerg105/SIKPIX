@@ -23,7 +23,7 @@ export const products: Product[] = [
     slug: "gta-street",
     name: "GTA Street",
     shortDescription: "Your car in the iconic GTA loading screen style",
-    longDescription: "The one everyone wants. Your car rendered in that unmistakable Grand Theft Auto aesthetic — dramatic sunset skyline, bold colours, and cinematic composition. Looks like your ride belongs in the next Rockstar release.",
+    longDescription: "The one everyone wants. Your car rendered in that unmistakable Grand Theft Auto aesthetic with dramatic sunset skylines, bold colours, and cinematic composition. Looks like your ride belongs in the next Rockstar release.",
     basePrice: 9.99,
     premiumPrice: 19.99,
     image: "/src/assets/product-gta-street.jpg",
@@ -44,8 +44,8 @@ export const products: Product[] = [
     uploadInstructions: [
       "Side profile or 3/4 angle works best",
       "Shoot in good daylight if possible",
-      "Clean background helps — car park or open road",
-      "Show the full car — no cropped bumpers"
+      "Clean background helps, like a car park or open road",
+      "Show the full car, no cropped bumpers"
     ],
     deliveryTime: "24-48 hours",
     faq: [
@@ -59,7 +59,7 @@ export const products: Product[] = [
     slug: "neon-night",
     name: "Neon Night",
     shortDescription: "Neon-lit urban night scene with your car",
-    longDescription: "Wet tarmac reflections, glowing shop signs, and your car bathed in neon. This style captures the electric atmosphere of a city at night — where every car looks like it belongs in a film.",
+    longDescription: "Wet tarmac reflections, glowing shop signs, and your car bathed in neon. This style captures the electric atmosphere of a city at night, where every car looks like it belongs in a film.",
     basePrice: 9.99,
     premiumPrice: 19.99,
     image: "/src/assets/product-neon-night.jpg",
@@ -79,14 +79,14 @@ export const products: Product[] = [
     ],
     uploadInstructions: [
       "Side profile or 3/4 angle works best",
-      "Any lighting is fine — we handle the neon",
+      "Any lighting is fine, we handle the neon",
       "Clean background preferred",
       "Include any mods you want highlighted"
     ],
     deliveryTime: "24-48 hours",
     faq: [
       { question: "Can you match specific neon colours?", answer: "Absolutely! Let us know your preferred colour scheme in the notes." },
-      { question: "Will my car's colour be accurate?", answer: "Yes — we match your car's actual colour as closely as possible in the artwork." }
+      { question: "Will my car's colour be accurate?", answer: "Yes, we match your car's actual colour as closely as possible in the artwork." }
     ],
     isBestseller: true
   },
@@ -95,7 +95,7 @@ export const products: Product[] = [
     slug: "street-racer-v1",
     name: "Street Racer",
     shortDescription: "Dark, aggressive street racing artwork",
-    longDescription: "Raw, aggressive, and unapologetic. Your car styled like it's about to tear up the strip. Dark backgrounds, motion blur, and that underground racing energy that gets pulses racing. Built for those who like their art like they like their cars — fast and loud.",
+    longDescription: "Raw, aggressive, and unapologetic. Your car styled like it's about to tear up the strip. Dark backgrounds, motion blur, and that underground racing energy that gets pulses racing. Built for those who like their art like they like their cars: fast and loud.",
     basePrice: 9.99,
     premiumPrice: 19.99,
     image: "/src/assets/product-street-racer-v1.jpg",
@@ -116,12 +116,12 @@ export const products: Product[] = [
     uploadInstructions: [
       "Front 3/4 or side angle looks most aggressive",
       "Low angles make the car look meaner",
-      "Any background is fine — we replace it",
+      "Any background is fine, we replace it",
       "Show off any body kit or aero mods"
     ],
     deliveryTime: "24-48 hours",
     faq: [
-      { question: "Can you add motion blur?", answer: "Yes — the Street Racer style includes dynamic motion effects as standard." },
+      { question: "Can you add motion blur?", answer: "Yes, the Street Racer style includes dynamic motion effects as standard." },
       { question: "Will my modifications be visible?", answer: "Absolutely. We pay close attention to your car's unique details and mods." }
     ],
     isBestseller: true
@@ -152,12 +152,12 @@ export const products: Product[] = [
     uploadInstructions: [
       "Side profile or 3/4 angle works best",
       "Show the stance and wheel setup",
-      "Any background — we create the scene",
+      "Any background, we create the scene",
       "Mention any specific mods to feature"
     ],
     deliveryTime: "24-48 hours",
     faq: [
-      { question: "How is this different from Street Racer?", answer: "This version has a moodier, underground feel — think car park meets and industrial settings vs highway action." },
+      { question: "How is this different from Street Racer?", answer: "This version has a moodier, underground feel. Think car park meets and industrial settings vs highway action." },
       { question: "Can you add other cars in the background?", answer: "Yes! Just mention it in your notes and we'll set the scene." }
     ]
   },
@@ -166,7 +166,7 @@ export const products: Product[] = [
     slug: "cartoon",
     name: "Cartoon",
     shortDescription: "Clean cartoon illustration of your car",
-    longDescription: "Your car drawn up proper. Clean lines, bold colours, and that cartoon style that makes even a daily runner look like a show car. Perfect for stickers, phone wallpapers, and getting mates jealous at the next meet. This is the style Big Mon is known for — the OG SikPix special.",
+    longDescription: "Your car drawn up proper. Clean lines, bold colours, and that cartoon style that makes even a daily runner look like a show car. Perfect for stickers, phone wallpapers, and getting mates jealous at the next meet. This is the style Big Mon is known for, the OG SikPix special.",
     basePrice: 9.99,
     premiumPrice: 19.99,
     image: "/src/assets/product-cartoon.jpg",
@@ -192,7 +192,7 @@ export const products: Product[] = [
     ],
     deliveryTime: "24-48 hours",
     faq: [
-      { question: "Can you exaggerate certain features?", answer: "Yes! Tell us what to emphasise — wheels, stance, body kit — and we'll make it pop." },
+      { question: "Can you exaggerate certain features?", answer: "Yes! Tell us what to emphasise (wheels, stance, body kit) and we'll make it pop." },
       { question: "Can I use this for stickers or merch?", answer: "The digital file is yours to use however you like. We can also provide vector format on request." }
     ],
     isBestseller: true
@@ -202,7 +202,7 @@ export const products: Product[] = [
     slug: "lowrider-v1",
     name: "Lowrider",
     shortDescription: "Lowrider culture sunset artwork",
-    longDescription: "West coast vibes. Palm trees, golden hour, and your car sitting right. This style brings the lowrider culture aesthetic to any vehicle — whether it's a Mk4 Golf or a classic Impala. The sunset glow makes everything look legendary.",
+    longDescription: "West coast vibes. Palm trees, golden hour, and your car sitting right. This style brings the lowrider culture aesthetic to any vehicle, whether it's a Mk4 Golf or a classic Impala. The sunset glow makes everything look legendary.",
     basePrice: 9.99,
     premiumPrice: 19.99,
     image: "/src/assets/product-lowrider-v1.jpg",
@@ -223,13 +223,13 @@ export const products: Product[] = [
     uploadInstructions: [
       "Side profile or low angle works best",
       "Show the full stance and wheels",
-      "Any background — we add the sunset",
+      "Any background, we add the sunset",
       "Mention preferred colour grading in notes"
     ],
     deliveryTime: "24-48 hours",
     faq: [
       { question: "Does my car need to be lowered?", answer: "Not at all! Any car can look sick in this style. We adjust the stance to fit the vibe." },
-      { question: "Can you add hydraulics effects?", answer: "Yes — just mention it in your notes and we'll add that classic lowrider bounce." }
+      { question: "Can you add hydraulics effects?", answer: "Yes! Just mention it in your notes and we'll add that classic lowrider bounce." }
     ]
   },
   {
@@ -257,13 +257,13 @@ export const products: Product[] = [
     ],
     uploadInstructions: [
       "Side profile or 3/4 angle preferred",
-      "Any lighting works — we set the night scene",
+      "Any lighting works, we set the night scene",
       "Clean shot of full car please",
       "Tell us about any chrome or lighting details"
     ],
     deliveryTime: "24-48 hours",
     faq: [
-      { question: "How is this different from regular Lowrider?", answer: "This version swaps the sunset for neon-lit night streets — same culture, darker energy." },
+      { question: "How is this different from regular Lowrider?", answer: "This version swaps the sunset for neon-lit night streets. Same culture, darker energy." },
       { question: "Can you add underglow effects?", answer: "Yes! Just tell us the colour and we'll add it." }
     ]
   },
@@ -293,12 +293,12 @@ export const products: Product[] = [
     uploadInstructions: [
       "Side or 3/4 angle preferred",
       "Show the car's profile clearly",
-      "Any background — we add the track",
+      "Any background, we add the track",
       "Tell us if you want a specific drift angle"
     ],
     deliveryTime: "24-48 hours",
     faq: [
-      { question: "Does my car need to be a drift car?", answer: "Any car can be made to look like it's drifting! From a Fiesta to a GT-R — we make it work." },
+      { question: "Does my car need to be a drift car?", answer: "Any car can be made to look like it's drifting! From a Fiesta to a GT-R, we make it work." },
       { question: "Can you add tyre smoke?", answer: "Tyre smoke comes as standard in this style. We go heavy on the drama." }
     ]
   },

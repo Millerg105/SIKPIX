@@ -53,7 +53,7 @@ const HeroSection = () => {
           muted
           loop
           playsInline
-          poster="/og-image.jpg"
+
           className="h-full w-full object-cover"
         >
           <source src="/hero-main.mp4" type="video/mp4" />
@@ -103,7 +103,7 @@ const HeroSection = () => {
               style={{ textShadow: "0 2px 10px rgba(0,0,0,0.3)" }}
             >
               Upload a photo of your car. Choose your style. 
-              Get a custom artwork — digital poster or printed canvas. Every piece is one-of-one.
+              Get a custom artwork, digital poster or printed canvas. Every piece is one-of-one.
             </p>
             <p className="font-body text-xs tracking-widest uppercase text-primary/80" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
               By @BIGMON270 · North West Car Culture

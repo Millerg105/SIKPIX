@@ -1,5 +1,5 @@
 // =============================================
-// SHOPIFY-READY CONFIGURATION — SIKPIX
+// SHOPIFY-READY CONFIGURATION - SIKPIX
 // All pricing, add-ons, POD items, bundles, and metadata
 // structured for Shopify export/integration
 // =============================================
@@ -135,7 +135,7 @@ export const podOptions = [
     id: "framed-canvas-a3", 
     name: "A3 Framed Canvas", 
     price: 79.99, 
-    description: "Canvas print in black floating frame — ready to hang",
+    description: "Canvas print in black floating frame, ready to hang",
     type: "radio" as const,
     sku: "POD-A3-FRAMED-CANVAS",
     shopifyTag: "pod-print",
@@ -146,7 +146,7 @@ export const podOptions = [
     id: "framed-canvas-a2", 
     name: "A2 Framed Canvas", 
     price: 99.99, 
-    description: "Large canvas print in black floating frame — ready to hang",
+    description: "Large canvas print in black floating frame, ready to hang",
     type: "radio" as const,
     sku: "POD-A2-FRAMED-CANVAS",
     shopifyTag: "pod-print",
