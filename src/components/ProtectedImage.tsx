@@ -27,7 +27,7 @@ const ProtectedImage = ({ wrapperClassName, className, style, ...props }: Protec
         style={{
           position: "absolute",
           inset: 0,
-          zIndex: 10,
+          zIndex: 2,
         }}
       />
     </div>

@@ -318,6 +318,7 @@ const ProductPage = () => {
                       <ProtectedImage
                         src={imageMap[related.id]}
                         alt={related.name}
+                        loading="lazy"
                         wrapperClassName="h-full w-full"
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />

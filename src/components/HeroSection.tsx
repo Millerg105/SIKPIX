@@ -88,8 +88,8 @@ const HeroSection = () => {
             <p className="font-body text-xs tracking-[0.3em] uppercase text-primary" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>
               Custom Car Art · Powered by Big Mon
             </p>
-            <h1 
-              className="font-display text-[4.25rem] font-bold uppercase leading-[0.92] tracking-[0.01em] text-foreground md:text-7xl"
+            <h1
+              className="font-display text-5xl font-bold uppercase leading-[0.92] tracking-[0.01em] text-foreground sm:text-[4.25rem] md:text-7xl"
               style={{ textShadow: "0 4px 20px rgba(0,0,0,0.4)" }}
             >
               Your Ride.{" "}
@@ -111,7 +111,7 @@ const HeroSection = () => {
           </div>
 
           <div className={`mt-8 flex flex-col gap-4 transition-all duration-1000 ease-out delay-300 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-            <p className="font-body text-sm font-medium tracking-[0.22em] uppercase text-white/90" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.45)" }}>
+            <p className="font-body text-xs sm:text-sm font-medium tracking-[0.18em] sm:tracking-[0.22em] uppercase text-white/90" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.45)" }}>
               Upload your car. Pick a style. We handle the rest.
             </p>
             <div className="flex max-w-md flex-col gap-3">
@@ -131,7 +131,7 @@ const HeroSection = () => {
             </p>
           </div>
 
-          <div className={`flex flex-col gap-4 pb-24 pt-8 sm:pb-0`}>
+          <div className={`flex flex-col gap-4 pb-0 pt-8`}>
             <div className={`flex items-center gap-4 sm:gap-8 transition-all duration-1000 ease-out delay-500 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
               <div className="space-y-1">
                 <p className="font-display text-2xl sm:text-3xl font-bold text-foreground" style={{ textShadow: "0 2px 10px rgba(0,0,0,0.3)" }}>8</p>

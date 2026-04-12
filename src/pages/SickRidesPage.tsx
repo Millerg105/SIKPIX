@@ -46,22 +46,22 @@ const SickRidesPage = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-80" />
 
-                    <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col h-1/2 justify-end">
-                      <p className="mb-1 font-body text-xs tracking-widest uppercase text-primary">
+                    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 flex flex-col justify-end">
+                      <p className="mb-1 font-body text-[10px] sm:text-xs tracking-widest uppercase text-primary">
                         {product.category}
                       </p>
-                      <h3 className="font-display text-xl font-medium text-foreground">
+                      <h3 className="font-display text-lg sm:text-xl font-medium text-foreground">
                         {product.name}
                       </h3>
-                      <p className="mt-2 font-body text-sm text-muted-foreground line-clamp-2 mb-4">
+                      <p className="mt-1 sm:mt-2 font-body text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-2 sm:mb-4">
                         {product.shortDescription}
                       </p>
-                      <div className="mb-4">
-                        <span className="font-body text-lg font-semibold text-foreground">
+                      <div className="mb-2 sm:mb-4">
+                        <span className="font-body text-sm sm:text-lg font-semibold text-foreground">
                           {product.isQuote ? "REQUEST QUOTE" : product.price}
                         </span>
                       </div>
-                      <Button variant={product.isQuote ? "luxuryOutline" : "luxury"} className="w-full">
+                      <Button variant={product.isQuote ? "luxuryOutline" : "luxury"} className="w-full text-xs sm:text-sm">
                         {product.isQuote ? "GET A QUOTE" : "VIEW PRODUCT"}
                       </Button>
                     </div>

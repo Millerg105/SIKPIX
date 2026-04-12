@@ -51,7 +51,7 @@ const Header = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-border transition-all hover:border-primary hover:text-primary md:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-border transition-all hover:border-primary hover:text-primary active:border-primary active:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary md:hidden"
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? (

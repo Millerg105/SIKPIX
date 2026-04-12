@@ -143,9 +143,10 @@ const HowItWorksPage = () => {
                   </div>
                   <div className="flex-1">
                     <div className="card-luxury aspect-video overflow-hidden">
-                      <img 
-                        src={step.image} 
+                      <img
+                        src={step.image}
                         alt={step.title}
+                        loading="lazy"
                         className="h-full w-full object-cover"
                       />
                     </div>
