@@ -1,48 +1,10 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import PublicSiteShell from "@/components/PublicSiteShell";
 import { Button } from "@/components/ui/button";
-
-const products = [
-  {
-    id: "snapback",
-    name: "Snapback Caps",
-    category: "Headwear",
-    shortDescription: "Premium SikPix branded snapbacks. Represent the culture.",
-    basePrice: 24.99,
-    image: "/images/threads/snapback.png",
-    comingSoon: false,
-  },
-  {
-    id: "tshirt",
-    name: "Graphic T-Shirts",
-    category: "Apparel",
-    shortDescription: "Heavyweight streetwear tees featuring exclusive car art prints.",
-    basePrice: 34.99,
-    image: "/images/threads/tshirt.png",
-    comingSoon: true,
-  },
-  {
-    id: "hoodie",
-    name: "Premium Hoodies",
-    category: "Apparel",
-    shortDescription: "Stay warm, look sharp. High-quality hoodies with custom logos.",
-    basePrice: 59.99,
-    image: "/images/threads/hoodie.png",
-    comingSoon: true,
-  },
-  {
-    id: "stickers",
-    name: "Sticker Packs",
-    category: "Accessories",
-    shortDescription: "Die-cut car art and JDM stickers. Built to withstand the elements.",
-    basePrice: 9.99,
-    image: "/images/threads/stickers.png",
-    comingSoon: false,
-  },
-];
+import { threadsProducts } from "@/data/threadsData";
 
 const SickThreadsPage = () => {
-  // Scroll to top on mount
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -69,8 +31,12 @@ const SickThreadsPage = () => {
         <section className="pb-32">
           <div className="container mx-auto px-6">
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {products.map((product) => (
-                <div key={product.id} className="group relative overflow-hidden flex flex-col cursor-pointer" onClick={() => { if(!product.comingSoon) window.location.href = "https://sikpix.myshopify.com/collections/threads" }}>
+              {threadsProducts.map((product) => (
+                <Link
+                  key={product.slug}
+                  to={`/sick-threads/${product.slug}`}
+                  className="group relative overflow-hidden flex flex-col"
+                >
                   <div className="card-luxury aspect-[3/4] overflow-hidden relative">
                     <img
                       src={product.image}
@@ -79,14 +45,6 @@ const SickThreadsPage = () => {
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-80" />
-                    
-                    {product.comingSoon && (
-                      <div className="absolute left-4 top-4">
-                        <span className="bg-primary/20 border border-primary/50 text-white backdrop-blur-sm px-3 py-1 font-body text-xs font-medium tracking-widest uppercase">
-                          Coming Soon
-                        </span>
-                      </div>
-                    )}
 
                     <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col">
                       <p className="mb-1 font-body text-xs tracking-widest uppercase text-primary">
@@ -103,13 +61,13 @@ const SickThreadsPage = () => {
                           From £{product.basePrice.toFixed(2)}
                         </span>
                       </div>
-                      
-                      <Button variant="luxury" className="w-full" disabled={product.comingSoon}>
-                        {product.comingSoon ? "COMING SOON" : "SHOP NOW"}
+
+                      <Button variant="luxury" className="w-full">
+                        SHOP NOW
                       </Button>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
