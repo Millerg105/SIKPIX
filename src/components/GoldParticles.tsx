@@ -10,7 +10,7 @@ interface Particle {
   blur: number;
 }
 
-const GoldParticles = () => {
+const NeonParticles = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -69,14 +69,14 @@ const GoldParticles = () => {
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
         
-        // Gold gradient
+        // Neon green gradient
         const gradient = ctx.createRadialGradient(
           particle.x, particle.y, 0,
           particle.x, particle.y, particle.size * 2
         );
-        gradient.addColorStop(0, `hsla(43, 50%, 65%, ${currentOpacity})`);
-        gradient.addColorStop(0.5, `hsla(43, 40%, 55%, ${currentOpacity * 0.5})`);
-        gradient.addColorStop(1, `hsla(43, 35%, 45%, 0)`);
+        gradient.addColorStop(0, `hsla(110, 100%, 55%, ${currentOpacity})`);
+        gradient.addColorStop(0.5, `hsla(110, 100%, 45%, ${currentOpacity * 0.5})`);
+        gradient.addColorStop(1, `hsla(110, 100%, 35%, 0)`);
         
         ctx.fillStyle = gradient;
         ctx.fill();
@@ -110,4 +110,4 @@ const GoldParticles = () => {
   );
 };
 
-export default GoldParticles;
+export default NeonParticles;

@@ -62,8 +62,8 @@ const SplashScreen = () => {
                 transitionTimingFunction: isClosing 
                   ? "cubic-bezier(0.4, 0, 0.2, 1)" 
                   : "cubic-bezier(0.22, 1, 0.36, 1)",
-                boxShadow: "inset 0 0 30px hsl(43 35% 55% / 0.1)",
-                borderBottom: "2px solid hsl(43 35% 55% / 0.3)",
+                boxShadow: "inset 0 0 30px hsl(110 100% 55% / 0.1)",
+                borderBottom: "2px solid hsl(110 100% 55% / 0.3)",
               }}
             />
           );
@@ -76,8 +76,8 @@ const SplashScreen = () => {
             phase === "opening" ? "scale-150 opacity-0" : "scale-100 opacity-50"
           }`}
           style={{
-            background: "radial-gradient(circle, hsl(43 35% 55% / 0.4) 0%, transparent 70%)",
-            boxShadow: "0 0 60px hsl(43 35% 55% / 0.3)",
+            background: "radial-gradient(circle, hsl(110 100% 55% / 0.4) 0%, transparent 70%)",
+            boxShadow: "0 0 60px hsl(110 100% 55% / 0.3)",
           }}
         />
       </div>
