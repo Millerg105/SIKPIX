@@ -53,6 +53,7 @@ const HeroSection = () => {
           muted
           loop
           playsInline
+          poster="/og-image.jpg"
           className="h-full w-full object-cover"
         >
           <source src="/hero-main.mp4" type="video/mp4" />
