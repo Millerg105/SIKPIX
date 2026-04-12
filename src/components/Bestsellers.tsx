@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { products } from "@/data/products";
 import { imageMap } from "@/hooks/useImageMap";
+import ProtectedImage from "@/components/ProtectedImage";
 
 const bestsellers = products.filter((p) => p.isBestseller);
 
@@ -33,10 +34,11 @@ const Bestsellers = () => {
               className="group"
             >
               <div className="card-luxury aspect-[3/4] overflow-hidden">
-                <img
+                <ProtectedImage
                   src={imageMap[product.id]}
                   alt={product.name}
                   loading="lazy"
+                  wrapperClassName="h-full w-full"
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>

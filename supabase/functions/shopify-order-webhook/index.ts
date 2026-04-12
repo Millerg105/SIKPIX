@@ -74,7 +74,6 @@ function extractLineItemMetadata(properties: Array<{ name: string; value: string
   const digitalAddons: Array<{ name: string; price: string }> = [];
   for (const [key, value] of propsMap) {
     if (key.startsWith('Add-On') || key === 'Digital Add-Ons') {
-      // Parse "Extra Person (+£5.00)" format
       const match = value.match(/^(.+?)\s*\(\+£([\d.]+)\)$/);
       if (match) {
         digitalAddons.push({ name: match[1].trim(), price: match[2] });
@@ -84,16 +83,27 @@ function extractLineItemMetadata(properties: Array<{ name: string; value: string
     }
   }
   
-  // Extract POD options
-  const podValue = propsMap.get('Print Options') || propsMap.get('Print Option');
-  let podOptions = null;
-  if (podValue) {
-    const match = podValue.match(/^(.+?)\s*\(\+£([\d.]+)\)$/);
-    if (match) {
-      podOptions = { option: match[1].trim(), price: match[2] };
-    } else {
-      podOptions = { option: podValue, price: '0' };
+  // Extract POD options (Smarter extraction for multiple styles)
+  const podItems: string[] = [];
+  for (const [key, value] of propsMap) {
+    if (key === 'Print Option' || key === 'Print Options' || key.startsWith('Print Option (')) {
+      // Style name is in the parentheses if present: "Print Option (Vogue Cover Portrait)"
+      const styleNameMatch = key.match(/\((.+?)\)/);
+      const styleName = styleNameMatch ? styleNameMatch[1] : (styles?.[0] || 'Primary Style');
+      
+      // Ensure it's not already formatted like "Style: Option"
+      if (value.includes(':')) {
+        podItems.push(value);
+      } else {
+        podItems.push(`${styleName}: ${value}`);
+      }
     }
+  }
+  
+  let podOptions = null;
+  if (podItems.length > 0) {
+    // Combine multiple pod options into one string for the POD parser
+    podOptions = { option: podItems.join(', '), price: '0' }; // Price is already inside the values
   }
   
   // Extract bundle discount

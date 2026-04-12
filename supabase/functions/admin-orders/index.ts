@@ -883,7 +883,7 @@ serve(async (req) => {
         });
       }
       
-      const validStatuses = ['pending', 'ready_for_pod', 'sent_to_pod', 'fulfilled', 'error'];
+      const validStatuses = ['pending', 'ready_for_pod', 'preview_sent', 'sent_to_pod', 'fulfilled', 'error'];
       if (!validStatuses.includes(status)) {
         return new Response(JSON.stringify({ error: 'Invalid status' }), {
           status: 400,

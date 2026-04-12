@@ -7,7 +7,7 @@ const corsHeaders = {
 };
 
 // Shopify Admin API configuration
-const SHOPIFY_STORE_DOMAIN = 'btvp1i-mb.myshopify.com';
+const SHOPIFY_STORE_DOMAIN = 'portraitive.myshopify.com';
 const SHOPIFY_ADMIN_API_VERSION = '2025-01';
 
 // =============================================
@@ -219,98 +219,107 @@ function calculateServerTotal(orderData: DraftOrderRequest): {
 // =============================================
 // DRAFT ORDER CREATION
 // =============================================
-async function createDraftOrder(orderData: DraftOrderRequest, serverTotal: number): Promise<string> {
-  const adminToken = Deno.env.get('SHOPIFY_ADMIN_API_TOKEN');
-  
+// =============================================
+// SHOPIFY INTEGRATION
+// =============================================
+async function createDraftOrder(orderData: DraftOrderRequest, validatedPrice: number) {
+  // 1. Get Shopify access token from Supabase unified vault
+  // Using SHOPIFY_ADMIN_TOKEN as per our previous instructions to the user
+  const adminToken = Deno.env.get('SHOPIFY_ADMIN_TOKEN') || Deno.env.get('SHOPIFY_ADMIN_API_TOKEN');
   if (!adminToken) {
-    throw new Error('SHOPIFY_ADMIN_API_TOKEN not configured');
+    console.error('Missing SHOPIFY_ADMIN_TOKEN environment variable');
+    throw new Error('Store configuration error: Missing Shopify token. Please check your Supabase Secrets.');
   }
 
-  // Build line item title with all selections
-  const stylesList = orderData.styles.map(s => s.styleName).join(', ');
-  const lineItemTitle = `Custom Car Artwork${orderData.styles.length > 1 ? 's' : ''} - ${stylesList}`;
-  
-  // Build note attributes for order details (no PII logged)
-  const noteAttributes: Array<{ name: string; value: string }> = [
-    { name: 'Styles', value: stylesList },
-    { name: 'Number of Artworks', value: orderData.styles.length.toString() },
-  ];
+  // Extract first names and last names for Shopify Customer fields
+  const names = orderData.customerName.trim().split(' ');
+  const firstName = names[0];
+  const lastName = names.length > 1 ? names.slice(1).join(' ') : 'Customer';
+
+  // 2. Format custom Line Item properties
+  let lineItemTitle = "SikPix - Custom Car Art";
+  const properties: { name: string; value: string }[] = [];
+
+  // Add selected styles as properties
+  const allStyleNames = orderData.styles.map(s => s.styleName).join(', ');
+  properties.push({ name: "Styles", value: allStyleNames });
+
+  orderData.styles.forEach((style, index) => {
+    properties.push({ name: `Style ${index + 1}`, value: style.styleName });
+    properties.push({ name: `_Style_${index + 1}_ID`, value: style.styleSlug });
+  });
 
   if (orderData.bundle) {
-    noteAttributes.push({ name: 'Bundle', value: orderData.bundle.label });
-    noteAttributes.push({ name: 'Bundle Discount', value: `${orderData.bundle.discountPercent}%` });
+    properties.push({ name: "Artwork Package", value: orderData.bundle.label });
+    lineItemTitle = `SikPix - ${orderData.bundle.label}`;
+  } else if (orderData.styles.length > 0) {
+    properties.push({ name: "Artwork Package", value: "Single Digital Portrait" });
   }
 
-  if (orderData.digitalAddOns.length > 0) {
-    const addOnsText = orderData.digitalAddOns
-      .map(a => `${a.label} (+£${a.price.toFixed(2)})`)
-      .join(', ');
-    noteAttributes.push({ name: 'Digital Add-Ons', value: addOnsText });
-  }
+  // Add POD selections to properties
+  orderData.portraitPodSelections.forEach((selection, index) => {
+    if (selection.podOption) {
+      properties.push({
+        name: `Print Option (${selection.styleName})`,
+        value: selection.podOption.label
+      });
+      if (selection.podOption.id) {
+        properties.push({ name: `_pod_id_${index}`, value: selection.podOption.id });
+      }
+    }
+  });
 
-  const podSelections = orderData.portraitPodSelections.filter(p => p.podOption);
-  if (podSelections.length > 0) {
-    const podText = podSelections
-      .map(p => `${p.styleName}: ${p.podOption?.label} (+£${p.podOption?.price.toFixed(2)})`)
-      .join(', ');
-    noteAttributes.push({ name: 'Print Options', value: podText });
-  }
+  // Add digital add-ons
+  orderData.digitalAddOns.forEach((addon, index) => {
+    properties.push({ name: `Digital Add-On ${index + 1}`, value: addon.label });
+    if (addon.id) {
+      properties.push({ name: `_addon_id_${index}`, value: addon.id });
+    }
+  });
 
-  if (orderData.specialRequests) {
-    noteAttributes.push({ name: 'Special Requests', value: orderData.specialRequests });
-  }
-
-  // Add reference photos if provided
+  // Attach customer photo references
   if (orderData.referencePhotos && orderData.referencePhotos.length > 0) {
-    noteAttributes.push({ 
-      name: 'Customer Photos', 
-      value: orderData.referencePhotos.join(', ') 
+    properties.push({
+      name: "Reference Photos",
+      value: `${orderData.referencePhotos.length} photo(s) submitted`
+    });
+    orderData.referencePhotos.forEach((url, idx) => {
+      properties.push({ name: `_reference_photo_url_${idx}`, value: url });
     });
   }
 
-  // Build the note for the order (no PII)
-  const orderNote = [
-    `Car Artwork Order: ${stylesList}`,
-    orderData.bundle ? `Bundle: ${orderData.bundle.label} (${orderData.bundle.discountPercent}% off)` : null,
-    orderData.digitalAddOns.length > 0 ? `Add-ons: ${orderData.digitalAddOns.map(a => a.label).join(', ')}` : null,
-    podSelections.length > 0 ? `Prints: ${podSelections.map(p => `${p.styleName}: ${p.podOption?.label}`).join(', ')}` : null,
-    orderData.specialRequests ? `Notes: ${orderData.specialRequests}` : null,
-    orderData.referencePhotos && orderData.referencePhotos.length > 0 
-      ? `Customer photos:\n${orderData.referencePhotos.join('\n')}` 
-      : null,
-  ].filter(Boolean).join('\n');
+  // Add customer notes
+  if (orderData.specialRequests) {
+    properties.push({ name: "Special Requests", value: orderData.specialRequests });
+  }
 
-  // Create Draft Order using Admin API with SERVER-CALCULATED price
-  const draftOrderPayload = {
+  // 3. Construct Shopify Draft Order Request Payload
+  const shopifyDraftOrderPayload = {
     draft_order: {
       line_items: [
         {
           title: lineItemTitle,
-          price: serverTotal.toFixed(2), // Use server-calculated total
+          price: validatedPrice.toFixed(2),
           quantity: 1,
-          taxable: true,
-          requires_shipping: podSelections.length > 0,
-          properties: noteAttributes.map(attr => ({ name: attr.name, value: attr.value })),
+          requires_shipping: orderData.portraitPodSelections.some(p => p.podOption !== null),
+          properties: properties,
+          taxable: true
         }
       ],
-      email: orderData.customerEmail,
-      note: orderNote,
-      note_attributes: [
-        { name: 'Customer Name', value: orderData.customerName },
-        ...noteAttributes
-      ],
-      tags: [
-        'car-art-order',
-        orderData.bundle ? `bundle-${orderData.bundle.label.toLowerCase().replace(/\s+/g, '-')}` : null,
-        ...orderData.digitalAddOns.map(a => `addon-${a.label.toLowerCase().replace(/\s+/g, '-')}`),
-        podSelections.length > 0 ? 'has-prints' : 'digital-only',
-      ].filter(Boolean).join(', '),
-      use_customer_default_address: false,
+      customer: {
+        email: orderData.customerEmail,
+        first_name: firstName,
+        last_name: lastName,
+      },
+      // Set to false to avoid issues if customer has no saved address
+      use_customer_default_address: false, 
+      tags: ["sikpix", orderData.bundle ? "bundle" : "single"].join(','),
+      note: orderData.specialRequests || ""
     }
   };
 
-  console.log('Creating Draft Order with server-calculated total:', serverTotal.toFixed(2));
-
+  // 4. Send API Request to Shopify Server
+  console.log(`Sending to Shopify Draft Order API... ${SHOPIFY_STORE_DOMAIN}`);
   const response = await fetch(
     `https://${SHOPIFY_STORE_DOMAIN}/admin/api/${SHOPIFY_ADMIN_API_VERSION}/draft_orders.json`,
     {
@@ -319,26 +328,32 @@ async function createDraftOrder(orderData: DraftOrderRequest, serverTotal: numbe
         'Content-Type': 'application/json',
         'X-Shopify-Access-Token': adminToken,
       },
-      body: JSON.stringify(draftOrderPayload),
+      body: JSON.stringify(shopifyDraftOrderPayload),
     }
   );
 
+  const responseText = await response.text();
+
   if (!response.ok) {
-    const errorText = await response.text();
-    console.error('Shopify API Error:', response.status, errorText);
-    throw new Error(`Failed to create draft order: ${response.status}`);
+    console.error('Shopify API rejection details:', response.status, responseText);
+    try {
+      const errorData = JSON.parse(responseText);
+      const specificError = errorData.errors ? JSON.stringify(errorData.errors) : responseText;
+      throw new Error(`Shopify API rejection: ${specificError}`);
+    } catch {
+      throw new Error(`Shopify API error ${response.status}: ${responseText}`);
+    }
   }
 
-  const data = await response.json();
-  console.log('Draft Order created successfully, ID:', data.draft_order.id);
+  const responseData = JSON.parse(responseText);
+  const invoiceUrl = responseData.draft_order.invoice_url;
 
-  const draftOrder = data.draft_order;
-  
-  if (!draftOrder.invoice_url) {
-    throw new Error('No invoice URL returned from draft order');
+  if (!invoiceUrl) {
+    throw new Error('Shopify API did not return an invoice URL');
   }
 
-  return draftOrder.invoice_url;
+  console.log(`Draft order successfully created for ${orderData.customerEmail}`);
+  return invoiceUrl;
 }
 
 // =============================================

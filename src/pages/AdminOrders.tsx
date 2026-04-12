@@ -6,8 +6,10 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, RefreshCw, Eye, Package, Copy, Check, Send, AlertCircle, Save, LogOut } from "lucide-react";
+import { Loader2, RefreshCw, Eye, Package, Copy, Check, Send, AlertCircle, Save, LogOut, Upload, ImageIcon, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import WatermarkedPreview from "@/components/WatermarkedPreview";
 
 interface ValidationErrorDetail {
   itemId: string;
@@ -84,6 +86,7 @@ interface PodJob {
 const STATUS_COLORS: Record<string, string> = {
   pending: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
   ready_for_pod: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+  preview_sent: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30",
   sent_to_pod: "bg-purple-500/20 text-purple-400 border-purple-500/30",
   fulfilled: "bg-green-500/20 text-green-400 border-green-500/30",
   error: "bg-red-500/20 text-red-400 border-red-500/30",
@@ -108,6 +111,11 @@ export default function AdminOrders() {
   const [artworkUrls, setArtworkUrls] = useState<Record<string, string>>({});
   // Track validation errors per style
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [uploadingFile, setUploadingFile] = useState<string | null>(null);
+  const [generatingWatermark, setGeneratingWatermark] = useState<string | null>(null);
+  const [updatingStatus, setUpdatingStatus] = useState<string | null>(null);
+  // Track which items have watermarked previews available
+  const [watermarkedItems, setWatermarkedItems] = useState<Set<string>>(new Set());
 
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 
@@ -243,63 +251,97 @@ export default function AdminOrders() {
       toast.error("Failed to generate POD job");
     }
   };
+  
+  const handleFileUpload = async (itemId: string, styleName: string, file: File) => {
+    if (!selectedOrder) return;
+    const key = `${itemId}:${styleName}`;
+    setUploadingFile(key);
+    
+    try {
+      // 1. Upload to Supabase Storage
+      const fileName = `${selectedOrder.order.shopify_order_number}-${styleName.replace(/\s+/g, '-')}-${file.name.replace(/\s+/g, '-')}`;
+      const filePath = `${selectedOrder.order.id}/${itemId}/${fileName}`;
+      
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('artworks')
+        .upload(filePath, file, { upsert: true });
+        
+      if (uploadError) throw uploadError;
+      
+      // 2. Get the public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('artworks')
+        .getPublicUrl(uploadData.path);
+        
+      // 3. Update the local state
+      setArtworkUrls(prev => ({ ...prev, [key]: publicUrl }));
+      
+      // 4. Save to the database
+      await saveArtworkUrlDirectly(itemId, styleName, publicUrl);
 
-  const saveArtworkUrl = async (itemId: string, styleName: string) => {
+      toast.success(`Uploaded artwork for "${styleName}"`);
+
+      // 5. Auto-generate watermarked preview
+      if (selectedOrder) {
+        generateWatermark(selectedOrder.order.id, itemId, styleName, publicUrl);
+      }
+    } catch (error: any) {
+      console.error("Upload failed:", error);
+      toast.error(`Upload failed: ${error.message}`);
+    } finally {
+      setUploadingFile(null);
+    }
+  };
+
+  const saveArtworkUrlDirectly = async (itemId: string, styleName: string, artworkUrl: string | null) => {
+    // Shared logic for saving the URL to the DB
+    const response = await fetch(
+      `${supabaseUrl}/functions/v1/admin-orders?action=update-artwork-url`,
+      {
+        method: "POST",
+        headers: {
+          "x-admin-token": adminToken,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+          item_id: itemId, 
+          style_name: styleName,
+          artwork_url: artworkUrl 
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.error || "Failed to save artwork URL");
+    }
+    
+    // Update local POD job state if successful
+    if (selectedOrder) {
+      setSelectedOrder(prev => prev ? {
+        ...prev,
+        podJob: {
+          ...prev.podJob,
+          items: prev.podJob.items.map(item =>
+            item.itemId === itemId && item.styleName === styleName 
+              ? { ...item, artworkUrl: artworkUrl || undefined } 
+              : item
+          )
+        }
+      } : null);
+    }
+  };
+
+  const onSaveClick = async (itemId: string, styleName: string) => {
     const key = `${itemId}:${styleName}`;
     const artworkUrl = artworkUrls[key] || "";
     setSavingArtwork(key);
     
-    // Clear previous error for this field
-    setFieldErrors(prev => {
-      const next = { ...prev };
-      delete next[key];
-      return next;
-    });
-    
     try {
-      const response = await fetch(
-        `${supabaseUrl}/functions/v1/admin-orders?action=update-artwork-url`,
-        {
-          method: "POST",
-          headers: {
-            "x-admin-token": adminToken,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ 
-            item_id: itemId, 
-            style_name: styleName,
-            artwork_url: artworkUrl.trim() || null 
-          }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        // Set field-level error
-        setFieldErrors(prev => ({ ...prev, [key]: data.error || "Failed to save" }));
-        throw new Error(data.error || "Failed to save artwork URL");
-      }
-
+      await saveArtworkUrlDirectly(itemId, styleName, artworkUrl.trim() || null);
       toast.success(`Saved artwork for "${styleName}"`);
-      
-      // Update local POD job state
-      if (selectedOrder) {
-        setSelectedOrder(prev => prev ? {
-          ...prev,
-          podJob: {
-            ...prev.podJob,
-            items: prev.podJob.items.map(item =>
-              item.itemId === itemId && item.styleName === styleName 
-                ? { ...item, artworkUrl: artworkUrl.trim() || undefined } 
-                : item
-            )
-          }
-        } : null);
-      }
     } catch (error) {
-      console.error("Failed to save artwork URL:", error);
-      toast.error(error instanceof Error ? error.message : "Failed to save artwork URL");
+      toast.error(error instanceof Error ? error.message : "Failed to save");
     } finally {
       setSavingArtwork(null);
     }
@@ -343,7 +385,7 @@ export default function AdminOrders() {
         // Map validation errors to field errors
         if (data.validationErrors && data.validationErrors.length > 0) {
           const newFieldErrors: Record<string, string> = {};
-          for (const err of data.validationErrors as ValidationErrorDetail[]) {
+          for (const err of data.validationErrors) {
             const key = `${err.itemId}:${err.styleName}`;
             newFieldErrors[key] = err.message;
           }
@@ -391,6 +433,82 @@ export default function AdminOrders() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
       toast.success("POD job copied to clipboard");
+    }
+  };
+
+  const generateWatermark = async (orderId: string, itemId: string, styleName: string, cleanImageUrl: string) => {
+    const key = `${itemId}:${styleName}`;
+    setGeneratingWatermark(key);
+    try {
+      const response = await fetch(
+        `${supabaseUrl}/functions/v1/generate-watermark`,
+        {
+          method: "POST",
+          headers: {
+            "x-admin-token": adminToken,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            order_id: orderId,
+            item_id: itemId,
+            style_name: styleName,
+            clean_image_url: cleanImageUrl,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Failed to generate watermark");
+      }
+
+      const data = await response.json();
+      setWatermarkedItems(prev => new Set(prev).add(key));
+      toast.success(`Watermark generated for "${styleName}"`);
+      return data.watermarked_url;
+    } catch (error) {
+      console.error("Watermark generation failed:", error);
+      toast.error(error instanceof Error ? error.message : "Watermark generation failed");
+      return null;
+    } finally {
+      setGeneratingWatermark(null);
+    }
+  };
+
+  const updateOrderStatus = async (orderId: string, status: string) => {
+    setUpdatingStatus(orderId);
+    try {
+      const response = await fetch(
+        `${supabaseUrl}/functions/v1/admin-orders?action=update-status`,
+        {
+          method: "POST",
+          headers: {
+            "x-admin-token": adminToken,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ order_id: orderId, status }),
+        }
+      );
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Failed to update status");
+      }
+
+      toast.success(`Order status updated to "${status.replace(/_/g, " ")}"`);
+      fetchOrders();
+
+      if (selectedOrder?.order.id === orderId) {
+        setSelectedOrder(prev => prev ? {
+          ...prev,
+          order: { ...prev.order, pod_status: status }
+        } : null);
+      }
+    } catch (error) {
+      console.error("Status update failed:", error);
+      toast.error(error instanceof Error ? error.message : "Failed to update status");
+    } finally {
+      setUpdatingStatus(null);
     }
   };
 
@@ -536,7 +654,22 @@ export default function AdminOrders() {
                           Generate POD
                         </Button>
                       )}
-                      {(order.pod_status === "pending" || order.pod_status === "ready_for_pod" || order.pod_status === "error") && (
+                      {(order.pod_status === "ready_for_pod" || order.pod_status === "pending") && (
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => updateOrderStatus(order.id, "preview_sent")}
+                          disabled={updatingStatus === order.id}
+                        >
+                          {updatingStatus === order.id ? (
+                            <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                          ) : (
+                            <ImageIcon className="h-4 w-4 mr-1" />
+                          )}
+                          Send Preview
+                        </Button>
+                      )}
+                      {(order.pod_status === "pending" || order.pod_status === "ready_for_pod" || order.pod_status === "preview_sent" || order.pod_status === "error") && (
                         <Button
                           variant="default"
                           size="sm"
@@ -549,6 +682,22 @@ export default function AdminOrders() {
                             <Send className="h-4 w-4 mr-1" />
                           )}
                           Send to Gelato
+                        </Button>
+                      )}
+                      {(order.pod_status === "sent_to_pod" || order.pod_status === "preview_sent") && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => updateOrderStatus(order.id, "fulfilled")}
+                          disabled={updatingStatus === order.id}
+                          className="border-green-500/30 text-green-400 hover:bg-green-500/10"
+                        >
+                          {updatingStatus === order.id ? (
+                            <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                          ) : (
+                            <CheckCircle2 className="h-4 w-4 mr-1" />
+                          )}
+                          Mark Complete
                         </Button>
                       )}
                     </div>
@@ -730,25 +879,52 @@ export default function AdminOrders() {
                                 <div className="flex gap-2">
                                   <Input
                                     type="url"
-                                    placeholder="https://...supabase.co/storage/v1/object/public/artworks/..."
+                                    placeholder="Paste URL or use upload button"
                                     value={artworkUrls[key] || ""}
                                     onChange={(e) => setArtworkUrls(prev => ({ ...prev, [key]: e.target.value }))}
                                     className={`flex-1 text-xs h-8 ${hasError ? 'border-red-500' : ''}`}
                                   />
-                                  <Button
-                                    variant="secondary"
-                                    size="sm"
-                                    className="h-8"
-                                    onClick={() => saveArtworkUrl(podItem.itemId, podItem.styleName)}
-                                    disabled={savingArtwork === key}
-                                  >
-                                    {savingArtwork === key ? (
-                                      <Loader2 className="h-3 w-3 animate-spin" />
-                                    ) : (
-                                      <Save className="h-3 w-3" />
-                                    )}
-                                    <span className="ml-1">Save</span>
-                                  </Button>
+                                  <div className="flex gap-1">
+                                    <Button
+                                      variant="secondary"
+                                      size="sm"
+                                      className="h-8"
+                                      onClick={() => onSaveClick(podItem.itemId, podItem.styleName)}
+                                      disabled={savingArtwork === key}
+                                    >
+                                      {savingArtwork === key ? (
+                                        <Loader2 className="h-3 w-3 animate-spin" />
+                                      ) : (
+                                        <Save className="h-3 w-3" />
+                                      )}
+                                      <span className="hidden sm:inline ml-1">Save</span>
+                                    </Button>
+                                    
+                                    <div className="relative">
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="h-8 border-dashed"
+                                        disabled={uploadingFile === key}
+                                      >
+                                        <input
+                                          type="file"
+                                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                          accept="image/*"
+                                          onChange={(e) => {
+                                            const file = e.target.files?.[0];
+                                            if (file) handleFileUpload(podItem.itemId, podItem.styleName, file);
+                                          }}
+                                        />
+                                        {uploadingFile === key ? (
+                                          <Loader2 className="h-3 w-3 animate-spin" />
+                                        ) : (
+                                          <Upload className="h-3 w-3" />
+                                        )}
+                                        <span className="hidden sm:inline ml-1">Upload</span>
+                                      </Button>
+                                    </div>
+                                  </div>
                                 </div>
                                 {hasError && (
                                   <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
@@ -760,6 +936,50 @@ export default function AdminOrders() {
                                   <p className="text-xs text-green-500 mt-1">
                                     ✓ Artwork URL set
                                   </p>
+                                )}
+                                {/* Watermark generation and preview */}
+                                {isSaved && (
+                                  <div className="mt-2 space-y-2">
+                                    <div className="flex items-center gap-2">
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="h-7 text-xs border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10"
+                                        onClick={() => generateWatermark(
+                                          selectedOrder!.order.id,
+                                          podItem.itemId,
+                                          podItem.styleName,
+                                          artworkUrls[key]
+                                        )}
+                                        disabled={generatingWatermark === key}
+                                      >
+                                        {generatingWatermark === key ? (
+                                          <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                                        ) : (
+                                          <ImageIcon className="h-3 w-3 mr-1" />
+                                        )}
+                                        {watermarkedItems.has(key) ? "Regenerate Watermark" : "Generate Watermark"}
+                                      </Button>
+                                      {watermarkedItems.has(key) && (
+                                        <span className="text-xs text-cyan-400">Watermark ready</span>
+                                      )}
+                                    </div>
+                                    {watermarkedItems.has(key) && (
+                                      <div className="border border-border/50 rounded overflow-hidden">
+                                        <p className="text-xs text-muted-foreground px-2 py-1 bg-muted/30">
+                                          Watermarked Preview
+                                        </p>
+                                        <WatermarkedPreview
+                                          supabaseUrl={supabaseUrl}
+                                          orderId={selectedOrder!.order.id}
+                                          itemId={podItem.itemId}
+                                          styleName={podItem.styleName}
+                                          className="max-h-48"
+                                          alt={`Watermarked preview of ${podItem.styleName}`}
+                                        />
+                                      </div>
+                                    )}
+                                  </div>
                                 )}
                               </div>
                             </div>
@@ -811,7 +1031,7 @@ export default function AdminOrders() {
                   {/* Actions */}
                   <div className="flex gap-2 flex-wrap">
                     {selectedOrder.order.pod_status === "pending" && (
-                      <Button 
+                      <Button
                         variant="secondary"
                         onClick={() => generatePodJob(selectedOrder.order.id)}
                       >
@@ -819,10 +1039,27 @@ export default function AdminOrders() {
                         Mark as Ready for POD
                       </Button>
                     )}
-                    {(selectedOrder.order.pod_status === "pending" || 
-                      selectedOrder.order.pod_status === "ready_for_pod" || 
+                    {(selectedOrder.order.pod_status === "ready_for_pod" ||
+                      selectedOrder.order.pod_status === "pending") && (
+                      <Button
+                        variant="secondary"
+                        onClick={() => updateOrderStatus(selectedOrder.order.id, "preview_sent")}
+                        disabled={updatingStatus === selectedOrder.order.id}
+                        className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10"
+                      >
+                        {updatingStatus === selectedOrder.order.id ? (
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        ) : (
+                          <ImageIcon className="h-4 w-4 mr-2" />
+                        )}
+                        Send Preview
+                      </Button>
+                    )}
+                    {(selectedOrder.order.pod_status === "pending" ||
+                      selectedOrder.order.pod_status === "ready_for_pod" ||
+                      selectedOrder.order.pod_status === "preview_sent" ||
                       selectedOrder.order.pod_status === "error") && (
-                      <Button 
+                      <Button
                         onClick={() => sendToGelato(selectedOrder.order.id)}
                         disabled={sendingToGelato === selectedOrder.order.id}
                       >
@@ -832,6 +1069,21 @@ export default function AdminOrders() {
                           <Send className="h-4 w-4 mr-2" />
                         )}
                         Send to Gelato
+                      </Button>
+                    )}
+                    {(selectedOrder.order.pod_status === "sent_to_pod" ||
+                      selectedOrder.order.pod_status === "preview_sent") && (
+                      <Button
+                        onClick={() => updateOrderStatus(selectedOrder.order.id, "fulfilled")}
+                        disabled={updatingStatus === selectedOrder.order.id}
+                        className="bg-green-600 hover:bg-green-700 text-white"
+                      >
+                        {updatingStatus === selectedOrder.order.id ? (
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        ) : (
+                          <CheckCircle2 className="h-4 w-4 mr-2" />
+                        )}
+                        Mark Complete
                       </Button>
                     )}
                   </div>

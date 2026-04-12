@@ -4,6 +4,7 @@ import PublicSiteShell from "@/components/PublicSiteShell";
 import { Button } from "@/components/ui/button";
 import { products } from "@/data/products";
 import { imageMap } from "@/hooks/useImageMap";
+import ProtectedImage from "@/components/ProtectedImage";
 import { addOns, podOptions, BASE_PRICE, bundleDiscounts } from "@/data/shopifyConfig";
 import {
   useOrderState,
@@ -338,7 +339,7 @@ const CreatePage = () => {
                               : "opacity-30 cursor-not-allowed"
                         }`}
                       >
-                        <img src={imageMap[product.id]} alt={product.name} className="h-full w-full object-cover" />
+                        <ProtectedImage src={imageMap[product.id]} alt={product.name} wrapperClassName="h-full w-full" className="h-full w-full object-cover" />
                         <div className="absolute inset-0 flex items-end bg-gradient-to-t from-background/80 to-transparent p-2">
                           <span className="font-body text-xs text-foreground line-clamp-2 sm:text-sm">{product.name}</span>
                         </div>

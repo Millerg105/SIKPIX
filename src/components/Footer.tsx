@@ -127,17 +127,17 @@ const Footer = () => {
             </h4>
             <ul className="space-y-3">
               <li>
-                <a href="https://btvp1i-mb.myshopify.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-muted-foreground transition-colors hover:text-primary">
+                <a href="https://portraitive.myshopify.com/policies/privacy-policy" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-muted-foreground transition-colors hover:text-primary">
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="https://btvp1i-mb.myshopify.com/policies/terms-of-service" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-muted-foreground transition-colors hover:text-primary">
+                <a href="https://portraitive.myshopify.com/policies/terms-of-service" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-muted-foreground transition-colors hover:text-primary">
                   Terms of Service
                 </a>
               </li>
               <li>
-                <a href="https://btvp1i-mb.myshopify.com/policies/shipping-policy" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-muted-foreground transition-colors hover:text-primary">
+                <a href="https://portraitive.myshopify.com/policies/shipping-policy" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-muted-foreground transition-colors hover:text-primary">
                   Shipping & Returns
                 </a>
               </li>

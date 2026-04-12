@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import PublicSiteShell from "@/components/PublicSiteShell";
 import { products } from "@/data/products";
 import { imageMap } from "@/hooks/useImageMap";
+import ProtectedImage from "@/components/ProtectedImage";
 
 const StylesPage = () => {
   // Scroll to top on mount
@@ -38,10 +39,11 @@ const StylesPage = () => {
                   className="group relative overflow-hidden"
                 >
                   <div className="card-luxury aspect-[3/4] overflow-hidden">
-                    <img
+                    <ProtectedImage
                       src={imageMap[product.id]}
                       alt={product.name}
                       loading="lazy"
+                      wrapperClassName="h-full w-full"
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-80" />

@@ -4,6 +4,7 @@ import PublicSiteShell from "@/components/PublicSiteShell";
 import { Button } from "@/components/ui/button";
 import { products } from "@/data/products";
 import { imageMap } from "@/hooks/useImageMap";
+import ProtectedImage from "@/components/ProtectedImage";
 import { BASE_PRICE, addOns, bundleDiscounts, podOptions } from "@/data/shopifyConfig";
 
 const CheckIcon = () => (
@@ -41,9 +42,10 @@ const ProductPage = () => {
               {/* Product Image */}
               <div className="relative">
                 <div className="card-luxury aspect-[3/4] overflow-hidden">
-                  <img
+                  <ProtectedImage
                     src={imageMap[product.id]}
                     alt={product.name}
+                    wrapperClassName="h-full w-full"
                     className="h-full w-full object-cover"
                   />
                 </div>
@@ -313,9 +315,10 @@ const ProductPage = () => {
                     className="group"
                   >
                     <div className="card-luxury aspect-[3/4] overflow-hidden">
-                      <img
+                      <ProtectedImage
                         src={imageMap[related.id]}
                         alt={related.name}
+                        wrapperClassName="h-full w-full"
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>

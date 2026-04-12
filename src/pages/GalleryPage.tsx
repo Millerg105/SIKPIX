@@ -3,6 +3,7 @@ import PublicSiteShell from "@/components/PublicSiteShell";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { imageMap, galleryImageMap } from "@/hooks/useImageMap";
+import ProtectedImage from "@/components/ProtectedImage";
 
 // Category filter labels matching our 8 car art styles
 const filterCategories = [
@@ -158,10 +159,11 @@ const GalleryPage = () => {
                   }}
                 >
                   <div className="aspect-square overflow-hidden rounded-lg">
-                    <img
+                    <ProtectedImage
                       src={getImage(item.id, item.isProduct)}
                       alt={`${item.name} - ${item.subtheme}`}
                       loading="lazy"
+                      wrapperClassName="h-full w-full"
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />

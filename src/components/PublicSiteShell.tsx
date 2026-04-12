@@ -13,7 +13,7 @@ type PublicSiteShellProps = {
 
 export default function PublicSiteShell({ children, hero, contentClassName }: PublicSiteShellProps) {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-background">
+    <div className="relative min-h-screen overflow-x-hidden bg-background">
       <div className="pointer-events-none fixed inset-0 z-0 opacity-100 saturate-125">
         <WarpShaderHero backgroundOnly className="h-full min-h-full w-full" />
       </div>

@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
-import { Camera, CircleDollarSign, GalleryVerticalEnd, SwatchBook } from "lucide-react";
+import { Camera, CircleDollarSign, GalleryVerticalEnd, SwatchBook, Shirt, Car } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { NavBar } from "@/components/ui/tubelight-navbar";
@@ -14,6 +14,8 @@ const Header = () => {
     { to: "/gallery", label: "Gallery" },
     { to: "/pricing", label: "Pricing" },
     { to: "/how-it-works", label: "How It Works" },
+    { to: "/sick-threads", label: "Threads" },
+    { to: "/sick-rides", label: "Rides" },
   ];
 
   const navItems = [
@@ -21,6 +23,8 @@ const Header = () => {
     { name: "Gallery", url: "/gallery", icon: GalleryVerticalEnd },
     { name: "Pricing", url: "/pricing", icon: CircleDollarSign },
     { name: "How It Works", url: "/how-it-works", icon: Camera },
+    { name: "Threads", url: "/sick-threads", icon: Shirt },
+    { name: "Rides", url: "/sick-rides", icon: Car },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -30,7 +34,7 @@ const Header = () => {
       <div className="container mx-auto flex h-20 items-center justify-between gap-4 px-6">
         <Link to="/" className="group flex items-center gap-3 transition-opacity duration-300 hover:opacity-80">
           <img
-            src="/New folder/unnamed-removebg-preview (3).png"
+            src="/logo-sikpix.png"
             alt="SikPix"
             className="h-10 w-auto object-contain md:h-12"
           />
@@ -98,7 +102,7 @@ const Header = () => {
             className="mb-2 flex items-center gap-2 border-b border-border/50 pb-4"
           >
             <img
-              src="/New folder/unnamed-removebg-preview (3).png"
+              src="/logo-sikpix.png"
               alt="SikPix"
               className="h-10 w-auto object-contain"
             />

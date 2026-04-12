@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { imageMap } from "@/hooks/useImageMap";
+import ProtectedImage from "@/components/ProtectedImage";
 
 const previewItems = [
   { id: "gta-street",      alt: "GTA Street — Audi RS3 in Rockstar Games art style" },
@@ -46,10 +47,11 @@ const GalleryPreview = () => {
               }`}
             >
               <div className="aspect-square overflow-hidden">
-                <img
+                <ProtectedImage
                   src={imageMap[item.id]}
                   alt={item.alt}
                   loading="lazy"
+                  wrapperClassName="h-full w-full"
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-background/0 transition-colors group-hover:bg-background/20" />

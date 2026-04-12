@@ -12,6 +12,8 @@ import CreatePage from "./pages/CreatePage";
 import ProductPage from "./pages/ProductPage";
 import AdminOrders from "./pages/AdminOrders";
 import NotFound from "./pages/NotFound";
+import SickThreadsPage from "./pages/SickThreadsPage";
+import SickRidesPage from "./pages/SickRidesPage";
 import SplashScreen from "./components/SplashScreen";
 import ShutterTransition from "./components/ShutterTransition";
 
@@ -34,6 +36,8 @@ const App = () => (
           <Route path="/create" element={<CreatePage />} />
           <Route path="/product/:slug" element={<ProductPage />} />
           <Route path="/admin/orders" element={<AdminOrders />} />
+          <Route path="/sick-threads" element={<SickThreadsPage />} />
+          <Route path="/sick-rides" element={<SickRidesPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

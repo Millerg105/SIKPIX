@@ -186,6 +186,13 @@
     height: 1px;
     background: linear-gradient(90deg, transparent 0%, hsl(var(--primary) / 0.5) 50%, transparent 100%);
   }
+
+  /* Image protection fallback */
+  .no-save {
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+  }
 }
 
 @layer utilities {
