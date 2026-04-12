@@ -114,24 +114,11 @@
     background-clip: text;
   }
 
-  /* Keep old class name as alias for compatibility */
-  .text-gradient-gold {
-    background: var(--gradient-neon);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
   .border-gradient-neon {
     border-image: var(--gradient-neon) 1;
   }
 
   .glow-neon {
-    box-shadow: var(--shadow-neon);
-  }
-
-  /* Keep old class name as alias */
-  .glow-gold {
     box-shadow: var(--shadow-neon);
   }
 
@@ -146,20 +133,6 @@
     border-color: hsl(var(--primary) / 0.5);
     box-shadow: var(--shadow-neon);
     transform: translateY(-4px);
-  }
-
-  .btn-luxury {
-    background: var(--gradient-neon);
-    color: hsl(var(--obsidian));
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    transition: var(--transition-smooth);
-  }
-
-  .btn-luxury:hover {
-    box-shadow: var(--shadow-neon);
-    transform: translateY(-2px);
   }
 
   .btn-outline-luxury {

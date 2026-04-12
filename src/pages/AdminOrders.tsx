@@ -475,9 +475,48 @@ export default function AdminOrders() {
     }
   };
 
+  const sendPreviewEmail = async (orderId: string): Promise<boolean> => {
+    try {
+      const response = await fetch(
+        `${supabaseUrl}/functions/v1/send-preview-email`,
+        {
+          method: "POST",
+          headers: {
+            "x-admin-token": adminToken,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ order_id: orderId }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(`Email failed: ${data.error || "Unknown error"}`);
+        return false;
+      }
+
+      toast.success(`Preview email sent to ${data.sent_to}`);
+      return true;
+    } catch (error) {
+      console.error("Preview email failed:", error);
+      toast.error(error instanceof Error ? error.message : "Failed to send email");
+      return false;
+    }
+  };
+
   const updateOrderStatus = async (orderId: string, status: string) => {
     setUpdatingStatus(orderId);
     try {
+      // If setting to preview_sent, send the email first
+      if (status === "preview_sent") {
+        const emailSent = await sendPreviewEmail(orderId);
+        if (!emailSent) {
+          setUpdatingStatus(null);
+          return;
+        }
+      }
+
       const response = await fetch(
         `${supabaseUrl}/functions/v1/admin-orders?action=update-status`,
         {
